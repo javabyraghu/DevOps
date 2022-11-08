@@ -1,0 +1,23 @@
+1. First run vagrant up
+2. Modify /etc/hostname to target1, target2, ansiblecontroller
+   in all vms
+3. set /etc/hosts to (for all vms)
+127.0.0.1 localhost ansiblecontroller
+::1       localhost ansiblecontroller
+4. Restart :
+  sudo shutdown now -r
+5. Install ansible at controller
+sudo yum update -y
+sudo yum install ansible -y
+
+6. create one inverntory file like
+---inventory.txt------
+target1 ansible_host=192.168.33.11 ansible_ssh_pass=vagrant
+target2 ansible_host=192.168.33.12 ansible_ssh_pass=vagrant
+
+7. check ssh connection from controller
+sudo ssh 192.168.33.11  (password : vagrant)
+sudo ssh 192.168.33.12
+
+8. Test target machines
+$ ansible target1 -m ping -i inventory.txt
