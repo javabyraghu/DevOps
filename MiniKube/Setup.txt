@@ -1,0 +1,26 @@
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+
+
+sudo yum install -y yum-utils -y
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+
+sudo systemctl enable docker
+sudo systemctl start docker
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
+
+sudo rpm -Uvh minikube-latest.x86_64.rpm
+sudo minikube start --driver=docker 
+sudo minikube kubectl -- get po -A
+alias kubectl="minikube kubectl --"
